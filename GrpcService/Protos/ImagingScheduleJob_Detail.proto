@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcService.Protos";
+
+// The student service definition.
+service RemoteImagingScheduleJob_Detail {
+	rpc GetImagingScheduleJobInfo_Detail (ImagingScheduleJobLookupModel_Detail) returns (ImagingScheduleJobModel_Detail);
+	rpc InsertImagingScheduleJob_Detail (ImagingScheduleJobModel_Detail) returns (ReplyJob_Detail);
+	rpc UpdateImagingScheduleJob_Detail (ImagingScheduleJobModel_Detail) returns (ReplyJob_Detail);
+	rpc DeleteImagingScheduleJob_Detail (ImagingScheduleJobLookupModel_Detail) returns (ReplyJob_Detail);
+	rpc RetrieveAllImagingScheduleJobs_Detail (EmptyJob_Detail) returns (ImagingScheduleJobList_Detail);
+}
+
+message EmptyJob_Detail {}
+
+message ImagingScheduleJobList_Detail {
+   repeated ImagingScheduleJobModel_Detail items = 1;
+}
+
+message ReplyJob_Detail {
+	string result = 1;
+	bool isOk = 2;
+}
+
+// The request message 
+message ImagingScheduleJobLookupModel_Detail {
+  int32 Jobid = 1;
+}
+
+// The response message 
+message ImagingScheduleJobModel_Detail {
+         int32 Id = 1;
+         string Jobname =2;
+         int32 Jobid =3;
+         string EmailNotificationAddress =4;
+         string JobdetailsType =5;
+         string SFtphost =6;
+         string SFtpuploadFrom =7;
+         string SFtpuploadto =8;
+         string SFtpdownloadFrom =9;
+         string SFtpdownloadTo =10;
+         string UsernamesFtp =11;
+         string PaswordsFtp =12;
+         string SshfingerPrint =13;
+         string Extra1 =14;
+         string Extra2 =15;
+         string Extra3 =16;
+         string Extra4 =17;
+         string Extra5 =18;
+         string TimeSpanWait =19;
+         string FileExtensiontoUpload =20;
+         string PortNumber =21;
+         string WordsToCheck =22;
+
+ }

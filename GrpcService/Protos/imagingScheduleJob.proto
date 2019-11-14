@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcService.Protos";
+
+// The student service definition.
+service RemoteImagingScheduleJob {
+	rpc GetImagingScheduleJobInfo (ImagingScheduleJobLookupModel) returns (ImagingScheduleJobModel);
+	rpc InsertImagingScheduleJob (ImagingScheduleJobModel) returns (ReplyJob);
+	rpc UpdateImagingScheduleJob (ImagingScheduleJobModel) returns (ReplyJob);
+	rpc DeleteImagingScheduleJob (ImagingScheduleJobLookupModel) returns (ReplyJob);
+	rpc RetrieveAllImagingScheduleJobs (EmptyJob) returns (ImagingScheduleJobList);
+}
+
+message EmptyJob {}
+
+message ImagingScheduleJobList {
+   repeated ImagingScheduleJobModel items = 1;
+}
+
+message ReplyJob {
+	string result = 1;
+	bool isOk = 2;
+}
+
+// The request message 
+message ImagingScheduleJobLookupModel {
+  int32 Id = 1;
+}
+
+// The response message 
+message ImagingScheduleJobModel {
+  int32 Id = 1;  
+  string Jobname = 2;
+  string scheduleTIME = 3;
+  string IsActive = 4;
+  string Description = 5;
+  string JOBTYPE = 6;
+ }
