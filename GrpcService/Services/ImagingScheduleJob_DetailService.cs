@@ -44,7 +44,7 @@ namespace GrpcService.Services
                                                                         where s.Jobid == request.Jobid
                                                                         select s.Id);
 
-            var ScheduleJob_Detail = _context.imaging_JOBdetails.Find(ScheduleJob_Detailw.First());
+            var ScheduleJob_Detail = _context.imaging_JOBdetails.Find(ScheduleJob_Detailw.FirstOrDefault());
 
 
             _logger.LogInformation("Sending Imaging ScheduleJob Detail request to find ");

@@ -178,13 +178,11 @@ namespace GrpcClient
         static async Task findScheduleTaskById(GrpcChannel channel, int id)
         {
             var client = new RemoteImagingScheduleJob.RemoteImagingScheduleJobClient(channel);
-
-     
+    
             var input = new ImagingScheduleJobLookupModel { Id = id };
 
-
             var reply = await client.GetImagingScheduleJobInfoAsync(input);
-          
+  
 
             Console.WriteLine($"{reply.Jobname} {reply.ScheduleTIME} {reply.IsActive} {reply.Description}");
 
@@ -200,6 +198,7 @@ namespace GrpcClient
 
 
             var reply_Detail = await client_detail.GetImagingScheduleJobInfo_DetailAsync(input_Detail);
+
             Console.WriteLine($"{reply_Detail.Jobname}");
             Console.WriteLine($"{reply_Detail.EmailNotificationAddress}");
             Console.WriteLine($"{reply_Detail.FileExtensiontoUpload}");
@@ -225,7 +224,7 @@ namespace GrpcClient
            
             Console.WriteLine(reply.Result);
         }
-
+        
 
         //[Insert new Task]
         static async Task InsertImagingScheduleJob(GrpcChannel channel, ImagingScheduleJobModel NewImagingShceduleTask)
