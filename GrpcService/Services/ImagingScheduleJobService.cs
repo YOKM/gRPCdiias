@@ -37,6 +37,7 @@ namespace GrpcService.Services
                 output.ScheduleTIME = ScheduleJob.scheduleTIME;
                 output.Jobname = ScheduleJob.Jobname;
                 output.JOBTYPE = ScheduleJob.JOBTYPE;
+                output.Description = ScheduleJob.Description;
                
             }
 

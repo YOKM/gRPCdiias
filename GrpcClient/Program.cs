@@ -78,6 +78,22 @@ namespace GrpcClient
 
             await findScheduleTaskById(channel, 68);
 
+
+
+            var client = new RemoteImagingScheduleJob.RemoteImagingScheduleJobClient(channel);
+
+            var input = new ImagingScheduleJobLookupModel { Id = 68 };
+
+            var reply = await client.GetImagingScheduleJobInfoAsync(input);
+
+
+            // Use reply as EditModel
+
+
+            Console.WriteLine("Description:" + reply.Description);
+
+
+
             Console.ReadLine();
         }
 
