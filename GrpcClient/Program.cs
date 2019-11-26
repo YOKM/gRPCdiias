@@ -43,11 +43,11 @@ namespace GrpcClient
 
             //await deleteStudent(channel, 56);
 
-       //     await displayAllStudents(channel);
+         //   await displayAllStudents(channel);
 
 
             // Test ImagingSchedule Jobs
-        await displayAllImagingTask(channel);
+       await displayAllImagingTask(channel);
 
 
          //  await displayAllImagingTask_Detail(channel);
@@ -165,7 +165,8 @@ namespace GrpcClient
             var empty = new EmptyJob();
             var ImgJobfilter = new ImgJobRetrieveOptions();
 
-            ImgJobfilter.Filter = "asc";
+            ImgJobfilter.Filter = "search";
+            ImgJobfilter.InputValue = "BBC";
             
 
           //  var list = await client.RetrieveAllImagingScheduleJobsAsync(empty);

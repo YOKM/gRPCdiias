@@ -220,26 +220,24 @@ namespace GrpcService.Services
             ImagingScheduleJobList list = new ImagingScheduleJobList();
             var scheduleJobs = _context.ImagingScheduleJob.ToList();
 
-            //MasterTask = MasterTask.Where(x => x.Jobname.ToLowerInvariant().Contains(Value.ToLowerInvariant())).ToArray();
-
+            
             //serach filter while typing
 
-            if (filterOptions.Filter == "search")
-            {
-                scheduleJobs = _context.ImagingScheduleJob.
-                                   Where(x => x.Jobname.ToLowerInvariant().
-                                   Contains((filterOptions.InputValue).ToLowerInvariant())).
-                                   ToList();
-            }
+            //   Where(x => x.FirstName.ToLowerInvariant().Contains("an".ToLowerInvariant()))
 
-                     
+            //if (filterOptions.Filter == "search")
+            //{
+          //    scheduleJobs = _context.ImagingScheduleJob.Where(x => x.Jobname.ToLowerInvariant().Contains("an".ToLowerInvariant())).ToList();
+            //}
+
+
 
             if (filterOptions.Filter == "asc")
             {
-                scheduleJobs = _context.ImagingScheduleJob.OrderBy(p =>p.Jobname).ToList();
+                scheduleJobs = _context.ImagingScheduleJob.OrderBy(p => p.Jobname).ToList();
             }
             else if (filterOptions.Filter == "desc")
-                {
+            {
                 scheduleJobs = _context.ImagingScheduleJob.OrderByDescending(p => p.Jobname).ToList();
             }
 
@@ -247,22 +245,47 @@ namespace GrpcService.Services
             {
                 List<ImagingScheduleJobModel> imagingScheduleJobsList = new List<ImagingScheduleJobModel>();
 
-                
-
-                foreach (var c in scheduleJobs)
+                if (filterOptions.Filter == "search")
                 {
-                    imagingScheduleJobsList.Add(new ImagingScheduleJobModel()
+
+                    foreach (var c in scheduleJobs
+                        .Where(x => x.Jobname.ToLowerInvariant().Contains(filterOptions.InputValue.ToLowerInvariant())))
                     {
+                        imagingScheduleJobsList.Add(new ImagingScheduleJobModel()
+                        {
 
-                        Id = c.Id,
-                        Jobname = c.Jobname,
-                        Description = c.Description,
-                        ScheduleTIME = c.scheduleTIME,
-                        JOBTYPE = c.JOBTYPE,
-                        IsActive = c.IsActive,
+                            Id = c.Id,
+                            Jobname = c.Jobname,
+                            Description = c.Description,
+                            ScheduleTIME = c.scheduleTIME,
+                            JOBTYPE = c.JOBTYPE,
+                            IsActive = c.IsActive,
 
-                    });
+                        });
+                    }
                 }
+                else
+                { 
+                
+                foreach (var c in scheduleJobs)
+                    
+                    {
+                        imagingScheduleJobsList.Add(new ImagingScheduleJobModel()
+                        {
+
+                            Id = c.Id,
+                            Jobname = c.Jobname,
+                            Description = c.Description,
+                            ScheduleTIME = c.scheduleTIME,
+                            JOBTYPE = c.JOBTYPE,
+                            IsActive = c.IsActive,
+
+                        });
+                    }
+             
+                }
+
+
 
                 list.Items.AddRange(imagingScheduleJobsList);
             }
@@ -273,6 +296,8 @@ namespace GrpcService.Services
 
             return Task.FromResult(list);
         }
+
+    
 
 
     }
