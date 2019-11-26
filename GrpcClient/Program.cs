@@ -43,11 +43,11 @@ namespace GrpcClient
 
             //await deleteStudent(channel, 56);
 
-         //   await displayAllStudents(channel);
+       //     await displayAllStudents(channel);
 
 
             // Test ImagingSchedule Jobs
-        //   await displayAllImagingTask(channel);
+        await displayAllImagingTask(channel);
 
 
          //  await displayAllImagingTask_Detail(channel);
@@ -76,7 +76,7 @@ namespace GrpcClient
 
         //    Console.WriteLine("After delete ");
 
-            await findScheduleTaskById(channel, 68);
+        //    await findScheduleTaskById(channel, 68);
 
 
 
@@ -136,7 +136,13 @@ namespace GrpcClient
             var client = new RemoteStudent.RemoteStudentClient(channel);
 
             var empty = new Empty();
-            var list = await client.RetrieveAllStudentsAsync(empty);
+            var filterOption = new RetrieveOptions();   // adding an option paratmeter on gRPC
+
+            filterOption.Filter = "true";  
+
+              //  var list = await client.RetrieveAllStudentsAsync(empty);
+
+           var list = await client.RetrieveAllStudentsFilterAsync(filterOption);
 
             Console.WriteLine(">>>>>>>>>>>>>>>>>>++++++++++++<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
@@ -157,13 +163,20 @@ namespace GrpcClient
                       
 
             var empty = new EmptyJob();
-            var list = await client.RetrieveAllImagingScheduleJobsAsync(empty);
+            var ImgJobfilter = new ImgJobRetrieveOptions();
+
+            ImgJobfilter.Filter = "asc";
+            
+
+          //  var list = await client.RetrieveAllImagingScheduleJobsAsync(empty);
+
+            var list = await client.RetrieveAllImagingScheduleJobsFilterAsync(ImgJobfilter);
 
             Console.WriteLine(">>>>>>>>>>>>>Imaging Schedule>>>>>++++++++++++<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
             foreach(var item in list.Items)
             {
-                Console.WriteLine($"{item.Id}: {item.Description} {item.Jobname} {item.ScheduleTIME}");
+                Console.WriteLine($"{item.Id}:{item.Jobname} {item.Description}  {item.ScheduleTIME}");
 
             }
 
@@ -262,6 +275,23 @@ namespace GrpcClient
         }
 
 
+        protected async Task JobSorting(string sortColumn)
+        {
+            ImagingScheduleJobList Im_TaskList = new ImagingScheduleJobList();
+          
+            var em_job = new EmptyJob();
+            var channel = GrpcChannel.ForAddress("https://localhost:5001");
+
+            var client = new RemoteImagingScheduleJob.RemoteImagingScheduleJobClient(channel);
+
+            var empty = new EmptyJob_Detail();
+
+            Im_TaskList = await client.RetrieveAllImagingScheduleJobsAsync(em_job);
+
+  
+         
+
+        }
 
 
 

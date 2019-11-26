@@ -53,7 +53,7 @@ namespace GrpcService.Services
 
                 var students = _context.Students.ToList();
 
-                foreach (var c in students)
+                foreach (var c in students.OrderBy(p=>p.FirstName))
                 {
                     studentList.Add(new StudentModel()
                     {
@@ -193,6 +193,47 @@ namespace GrpcService.Services
             );
         }
 
-      
+        public override Task<StudentList> RetrieveAllStudentsFilter(RetrieveOptions request, ServerCallContext context)
+        {
+            _logger.LogInformation("Retrieving all students");
+
+            StudentList list = new StudentList();
+
+            if(request.Filter == "true")
+            {
+                //   MasterTask = MasterTask.Where(x => x.Jobname.ToLowerInvariant().Contains(Value.ToLowerInvariant())).ToArray();
+
+                try
+                {
+                    List<StudentModel> studentList = new List<StudentModel>();
+
+                    var students = _context.Students.ToList();
+
+                  //  foreach (var c in students.OrderBy(p => p.FirstName))
+                        foreach (var c in students.
+                                            Where(x => x.FirstName.ToLowerInvariant().Contains("an".ToLowerInvariant()))
+                                                            )
+                        {
+                        studentList.Add(new StudentModel()
+                        {
+                            StudentId = c.StudentId,
+                            FirstName = c.FirstName,
+                            LastName = c.LastName,
+                            School = c.School,
+                        });
+                    }
+
+                    list.Items.AddRange(studentList);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogInformation(ex.ToString());
+                }
+            }
+
+          
+
+            return Task.FromResult(list);
+        }
     }
 }

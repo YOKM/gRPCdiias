@@ -9,9 +9,15 @@ service RemoteImagingScheduleJob {
 	rpc UpdateImagingScheduleJob (ImagingScheduleJobModel) returns (ReplyJob);
 	rpc DeleteImagingScheduleJob (ImagingScheduleJobLookupModel) returns (ReplyJob);
 	rpc RetrieveAllImagingScheduleJobs (EmptyJob) returns (ImagingScheduleJobList);
+	rpc RetrieveAllImagingScheduleJobsFilter (ImgJobRetrieveOptions) returns (ImagingScheduleJobList);
 }
 
 message EmptyJob {}
+
+message ImgJobRetrieveOptions{
+string filter = 1;
+string inputValue = 2;
+}
 
 message ImagingScheduleJobList {
    repeated ImagingScheduleJobModel items = 1;

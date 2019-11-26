@@ -213,5 +213,67 @@ namespace GrpcService.Services
         }
 
 
+        public override Task<ImagingScheduleJobList> RetrieveAllImagingScheduleJobsFilter(ImgJobRetrieveOptions filterOptions, ServerCallContext context)
+        {
+            _logger.LogInformation("Retrieving all ImagingJobs");
+
+            ImagingScheduleJobList list = new ImagingScheduleJobList();
+            var scheduleJobs = _context.ImagingScheduleJob.ToList();
+
+            //MasterTask = MasterTask.Where(x => x.Jobname.ToLowerInvariant().Contains(Value.ToLowerInvariant())).ToArray();
+
+            //serach filter while typing
+
+            if (filterOptions.Filter == "search")
+            {
+                scheduleJobs = _context.ImagingScheduleJob.
+                                   Where(x => x.Jobname.ToLowerInvariant().
+                                   Contains((filterOptions.InputValue).ToLowerInvariant())).
+                                   ToList();
+            }
+
+                     
+
+            if (filterOptions.Filter == "asc")
+            {
+                scheduleJobs = _context.ImagingScheduleJob.OrderBy(p =>p.Jobname).ToList();
+            }
+            else if (filterOptions.Filter == "desc")
+                {
+                scheduleJobs = _context.ImagingScheduleJob.OrderByDescending(p => p.Jobname).ToList();
+            }
+
+            try
+            {
+                List<ImagingScheduleJobModel> imagingScheduleJobsList = new List<ImagingScheduleJobModel>();
+
+                
+
+                foreach (var c in scheduleJobs)
+                {
+                    imagingScheduleJobsList.Add(new ImagingScheduleJobModel()
+                    {
+
+                        Id = c.Id,
+                        Jobname = c.Jobname,
+                        Description = c.Description,
+                        ScheduleTIME = c.scheduleTIME,
+                        JOBTYPE = c.JOBTYPE,
+                        IsActive = c.IsActive,
+
+                    });
+                }
+
+                list.Items.AddRange(imagingScheduleJobsList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.ToString());
+            }
+
+            return Task.FromResult(list);
+        }
+
+
     }
 }

@@ -9,9 +9,14 @@ service RemoteStudent {
 	rpc UpdateStudent (StudentModel) returns (Reply);
 	rpc DeleteStudent (StudentLookupModel) returns (Reply);
 	rpc RetrieveAllStudents (Empty) returns (StudentList);
+	rpc RetrieveAllStudentsFilter (RetrieveOptions) returns (StudentList);
 }
 
 message Empty {}
+
+message RetrieveOptions{
+ string filter = 1;
+}
 
 message StudentList {
    repeated StudentModel items = 1;
